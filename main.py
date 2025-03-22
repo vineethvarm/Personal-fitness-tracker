@@ -9,7 +9,7 @@ from kivy.core.window import Window
 firebaseConfig = {
     "apiKey": "AIzaSyCTdEE8u_waeglHCAe--L-XuZWmfyi33uc",
     "authDomain": "fitnesstracker-20003.firebaseapp.com",
-    "databaseURL": "https://fitnesstracker-20003.firebaseio.com/",
+    "databaseURL": "https://fitnesstracker-20003-default-rtdb.firebaseio.com",
     "projectId": "fitnesstracker-20003",
     "storageBucket": "fitnesstracker-20003.firebasestorage.app",
     "messagingSenderId": "154505403780",
@@ -45,21 +45,21 @@ class LoginScreen(MDScreen):
 class SignupScreen(MDScreen):
     def signup_user(self, email, password, name):
         try:
-            user = auth.create_user_with_email_and_password(email, password)  # Use the email & password fields
+             user = auth.create_user_with_email_and_password(email, password)
+             # If signup is successful, proceed
+        except requests.exceptions.HTTPError as e:
+             error_message = e.response.json().get("error", {}).get("message", "Unknown error")
+             print(f"Signup failed: {error_message}")
 
-            user_id = user['localId']
-            data = {"name": name}
-            db.child("users").child(user_id).set(data)  # Save user name to Firebase database
-            print(f"Saving user data for ID: {user_id}")  # Log saving user data
-            print(f"Saving user data for ID: {user_id}")  # Log saving user data
-            print(f"Saving user data for ID: {user_id}")  # Log saving user data
-            print(f"Saving user data for ID: {user_id}")  # Log saving user data
-            print(f"Saving user data for ID: {user_id}")  # Log saving user data
-            self.manager.current = "login"  # Switch to login screen after successful signup
-
-
-
-
+             user_id = user['localId']
+             data = {"name": name}
+             db.child("users").child(user_id).set(data)  # Save user name to Firebase database
+             print(f"Saving user data for ID: {user_id}")  # Log saving user data
+             print(f"Saving user data for ID: {user_id}")  # Log saving user data
+             print(f"Saving user data for ID: {user_id}")  # Log saving user data
+             print(f"Saving user data for ID: {user_id}")  # Log saving user data
+             print(f"Saving user data for ID: {user_id}")  # Log saving user data
+             self.manager.current = "login"  # Switch to login screen after successful signup
 
         except Exception as e:
             self.ids.error_label.text = f"Signup Failed: {e}"
