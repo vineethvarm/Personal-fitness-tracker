@@ -9,7 +9,7 @@ from kivy.core.window import Window
 firebaseConfig = {
     "apiKey": "AIzaSyCTdEE8u_waeglHCAe--L-XuZWmfyi33uc",
     "authDomain": "fitnesstracker-20003.firebaseapp.com",
-    "databaseURL": "https://fitnesstracker-20003-default-rtdb.firebaseio.com/",
+    "databaseURL": "https://fitnesstracker-20003.firebaseio.com/",
     "projectId": "fitnesstracker-20003",
     "storageBucket": "fitnesstracker-20003.firebasestorage.app",
     "messagingSenderId": "154505403780",
@@ -55,9 +55,7 @@ class SignupScreen(MDScreen):
             print(f"Saving user data for ID: {user_id}")  # Log saving user data
             print(f"Saving user data for ID: {user_id}")  # Log saving user data
             print(f"Saving user data for ID: {user_id}")  # Log saving user data
-            print(f"Saving user data for ID: {user_id}")  # Log saving user data
             self.manager.current = "login"  # Switch to login screen after successful signup
-
 
 
 
