@@ -45,21 +45,18 @@ class LoginScreen(MDScreen):
 class SignupScreen(MDScreen):
     def signup_user(self, email, password, name):
         try:
-             user = auth.create_user_with_email_and_password(email, password)
-             # If signup is successful, proceed
-        except requests.exceptions.HTTPError as e:
-             error_message = e.response.json().get("error", {}).get("message", "Unknown error")
-             print(f"Signup failed: {error_message}")
+            user = auth.create_user_with_email_and_password(email, password)
+            user_id = user['localId']
+            data = {"name": name}
+            db.child("users").child(user_id).set(data)  # Save user name to Firebase database
+            self.manager.current = "login"  # Switch to login screen after successful signup
 
-             user_id = user['localId']
-             data = {"name": name}
-             db.child("users").child(user_id).set(data)  # Save user name to Firebase database
-             print(f"Saving user data for ID: {user_id}")  # Log saving user data
-             print(f"Saving user data for ID: {user_id}")  # Log saving user data
-             print(f"Saving user data for ID: {user_id}")  # Log saving user data
-             print(f"Saving user data for ID: {user_id}")  # Log saving user data
-             print(f"Saving user data for ID: {user_id}")  # Log saving user data
-             self.manager.current = "login"  # Switch to login screen after successful signup
+        except requests.exceptions.HTTPError as e:
+            if e.response is not None:
+                error_message = e.response.json().get("error", {}).get("message", "Unknown error")
+            else:
+                error_message = "No response from server"
+            self.ids.error_label.text = f"Signup Failed: {error_message}"
 
         except Exception as e:
             self.ids.error_label.text = f"Signup Failed: {e}"
@@ -100,7 +97,6 @@ class PersonalFitnessApp(MDApp):
         sm.add_widget(DashboardScreen(name="dashboard"))
         sm.add_widget(FitnessTrackerScreen(name="fitness_tracker"))
         Window.size = (400, 600)  # Set window size to something reasonable
-
 
         return sm
 
